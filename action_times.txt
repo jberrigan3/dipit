@@ -1,0 +1,5 @@
+{'penetrant': 50, 
+ 'emulsify': 55, 
+ 'developer': 40, 
+ 'post_rinse': 55, 
+ 'pre_rinse': 61}
