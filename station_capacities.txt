@@ -1,0 +1,8 @@
+{'penetrant': 1,
+ 'dwell': 8, 
+ 'pre-rinse': 1,
+ 'emulsify': 1, 
+ 'post-rinse': 1,
+ 'inspection': 1,
+ 'developer': 1, 
+ 'oven': 2}
