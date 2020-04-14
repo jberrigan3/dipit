@@ -120,7 +120,7 @@ class ManufModel(Model):
 			total_time = 0
 			while len(arrivals) < self.num_blades:
 				arrivals.append(total_time)
-				total_time += int(random.expovariate(rate)) # interarrival time
+				total_time += 20 # interarrival time
 			return arrivals
 			# return [0, 8, 11, 31, 31, 33, 71, 76, 81, 98, 100, 117]
 

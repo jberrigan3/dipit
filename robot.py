@@ -49,6 +49,8 @@ class Robot(Agent):
 			self.model.schedule.time += (STATION_TIMES['pre_rinse'] + MOVEMENT_TIME)
 		elif action in [5, 8, 9]:
 			self.model.schedule.time += (STATION_TIMES['post_rinse'] + MOVEMENT_TIME)
+		# elif action == 9:
+		# 	self.model.schedule.time += 240 + MOVEMENT_TIME # if unload cant be done immediately.
 		elif action != 10:
 			self.model.schedule.time += MOVEMENT_TIME
 		else:
@@ -125,10 +127,10 @@ class Robot(Agent):
 				# oven or dwell occupied, advancing not occurring or possible, no dips needed
 				if (state[2] == 2 or (state[8] > 0 and not state[0] and not state[5] and not state[3]) or (state[2] > 0 and state[0] == 0)) and not state[-4] and (state[4] + sum(state[6:8])) == 0 and not (state[-2] or state[-5] or state[-1]):
 					reward = 10
-					if (state[8] > 0 and (state[5] or state[3])):
+					if (state[8] < 2 and (state[5] or state[3])):
 						reward = -10
 				# oven full but removal not needed, redip not needed, dwell occupied
-				elif state[-3] == 0 and state[-5] == 0 and state[8] == 2 and state[2] > 0 and (state[4] + sum(state[6:8])) == 0 and not state[-1]:
+				elif state[-3] == 0 and state[-5] == 0 and state[8] == 2 and (state[4] + sum(state[6:8])) == 0 and not state[-1]:
 					reward = 10
 				elif state[-1] and action == 11:
 					reward = 10
@@ -161,7 +163,7 @@ class Robot(Agent):
 				system.append(b)
 
 		dwell_time = max([self.model.schedule.time - d.get_dwell_time() for d in dwell]) + BUFFER if len(dwell) > 0 else 0
-		print([self.model.schedule.time - d.get_dwell_time() for d in dwell] if len(dwell) > 0 else str(0))
+		# print([self.model.schedule.time - d.get_dwell_time() for d in dwell] if len(dwell) > 0 else str(0))
 		# print('dwell times: ', dwell_time)
 		oven_time = max([self.model.schedule.time - o.get_oven_time() for o in oven]) if len(oven) > 0 else 0
 		undipped = -1 if len(system) == 0 else min([s.initial_dip_time for s in system])
